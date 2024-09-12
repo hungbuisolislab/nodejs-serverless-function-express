@@ -81,7 +81,7 @@ export function buildRequestData({ config, resource, fileName, content }: Reques
 }
 
 const handler = async (req: VercelRequest, res: VercelResponse) => {
-  const { config, resource, content, fileName } = req.query as any
+  const { config, resource, content, fileName } = req.body
 
   if (!config?.shopName || !config?.accessToken) {
     return res.json({ message: `Missing config details ___ ${JSON.stringify(req.query)}`, status: 400 })
