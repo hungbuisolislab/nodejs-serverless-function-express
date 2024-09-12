@@ -84,7 +84,7 @@ const handler = async (req: VercelRequest, res: VercelResponse) => {
   const { config, resource, content, fileName } = req.query as any
 
   if (!config?.shopName || !config?.accessToken) {
-    return res.json({ message: 'Missing config details', status: 400 })
+    return res.json({ message: `Missing config details ___ ${JSON.stringify(req.query)}`, status: 400 })
   }
 
   try {
