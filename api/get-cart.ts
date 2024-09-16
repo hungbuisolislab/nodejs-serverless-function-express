@@ -29,7 +29,7 @@ const allowCors = (fn: (req: VercelRequest, res: VercelResponse) => Promise<Verc
   }
 
 const handler = async (req: VercelRequest, res: VercelResponse) => {
-  const { cartId } = req.body
+  const { cartId } = JSON.parse(req.body)
   const cartQuery = `
     query CartQuery {
       cart(id: "gid://shopify/Cart/${cartId}") {
