@@ -25,10 +25,6 @@ const allowCors = (fn: (req: VercelRequest, res: VercelResponse) => Promise<Verc
       res.status(200).end()
       return
     }
-    if (req.method !== 'PUT') {
-      res.status(405).json('Method not allowed').end()
-      return
-    }
     return await fn(req, res)
   }
 
