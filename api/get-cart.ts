@@ -30,45 +30,48 @@ const allowCors = (fn: (req: VercelRequest, res: VercelResponse) => Promise<Verc
 
 const handler = async (req: VercelRequest, res: VercelResponse) => {
   const { cartId } = req.body
-
-  try {
-    const response = await client.request(`
-      query CartQuery {
-        cart(id: "gid://shopify/Cart/${cartId}") {
-          id
-          buyerIdentity {
-            countryCode
-            email
-          }
-          lines(first: 50) {
-            nodes {
-              quantity
-              merchandise {
-                __typename
-                ... on ProductVariant {
+  const cartQuery = `
+    query CartQuery {
+      cart(id: "gid://shopify/Cart/${cartId}") {
+        id
+        buyerIdentity {
+          countryCode
+          email
+        }
+        lines(first: 50) {
+          nodes {
+            quantity
+            merchandise {
+              __typename
+              ... on ProductVariant {
+                id
+                price {
+                  amount
+                }
+                title
+                image {
+                  altText
                   id
-                  price {
-                    amount
-                  }
+                  height
+                  url
+                  width
+                }
+                product {
                   title
-                  image {
-                    altText
-                    id
-                    height
-                    url
-                    width
-                  }
-                  product {
-                    title
-                  }
                 }
               }
             }
           }
         }
       }
-    `);
+    }
+  `
+
+  try {
+    const response = await client.request(cartQuery);
     return res.json({
+      cartQuery,
+      cartId,
       message: 'Request successful',
       data: response.data,
       status: 200
