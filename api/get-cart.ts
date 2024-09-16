@@ -70,7 +70,7 @@ const handler = async (req: VercelRequest, res: VercelResponse) => {
   try {
     const response = await client.request(cartQuery);
     return res.json({
-      body: req.body,
+      body: JSON.parse(req.body),
       cartQuery,
       cartId: cartId,
       message: 'Request successful',
